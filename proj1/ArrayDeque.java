@@ -133,7 +133,13 @@ public class ArrayDeque<Item> {
     }
 
     public Item get(int index) {
+	if (items[index] == null) {
+	    System.out.println("Invalid index.");
+	    return null;
+	}
+	else {
 	return items[index];
+	}
     }
 	    
 	    
