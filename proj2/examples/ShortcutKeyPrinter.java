@@ -7,10 +7,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-/** A JavaFX application that prints out when Control+a or Control+z is pressed. */
-public class ControlKeyPrinter extends Application {
+/**
+ * A JavaFX application that prints out when Control+a (or command+a on macs) or Control+z (or
+ * command+z on macs) is pressed.
+ */
+public class ShortcutKeyPrinter extends Application {
     private static final int WINDOW_WIDTH = 20;
     private static final int WINDOW_HEIGHT = 20;
+    private static final String MESSAGE_PREFIX =
+            "User pressed the shortcut key (command or control, depending on the OS)";
 
     @Override
     public void start(Stage primaryStage) {
@@ -27,11 +32,11 @@ public class ControlKeyPrinter extends Application {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                if (keyEvent.isControlDown()) {
+                if (keyEvent.isShortcutDown()) {
                     if (keyEvent.getCode() == KeyCode.A) {
-                        System.out.println("User pressed Control+a");
+                        System.out.println(MESSAGE_PREFIX + " in addition to \"a\"");
                     } else if (keyEvent.getCode() == KeyCode.Z) {
-                        System.out.println("User pressed Control+z");
+                        System.out.println(MESSAGE_PREFIX + " in addition to \"z\"");
                     }
                 }
             }

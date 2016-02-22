@@ -2,12 +2,15 @@ This folder contains examples that you might find useful for this project. These
  - SingleLetterDisplaySimple.java
  - SingleLetterDisplay.java
  - KeyPressPrinter.java
- - ControlKeyPrinter.java
+ - ShortcutKeyPrinter.java
  - MouseClickPositionPrinter.java
  - CopyFile.java
  - ResizeAllen.java
  - ScrollBarExample.java
  - PathDrawer.java
+ - ClipboardExample.java
+
+The example_files folder also contains two example files that may be useful: one that uses Linux-style newline characters (a "\n" represents a newline) and one that uses Windows-style newlines ("\r\n" denotes a newline).  Both of these files should look the same when opened by your editor.
 
 SingleLetterDisplaySimple
 --------------------
@@ -24,7 +27,7 @@ KeyPressPrinter
 
 Creates a GUI window that is not used for drawing, but instead just for collecting and printing KeyEvents. KeyEvents are a bit counterintuitive. We highly recommend that you attempt to diagnose any KeyEvent confusion using this program, as opposed to one of the clients above or your editor.
 
-ControlKeyPrinter
+ShortcutKeyPrinter
 --------------------
 
 Creates a GUI window that is not used for drawing, but instead just for collecting and printing KeyEvents.  In particular, this file prints out a message anytime the user presses Control+a or Control+z.
@@ -52,4 +55,9 @@ Provides an example of how to use scrollbars.
 PathDrawer
 --------------------
 
-Creates a GUI window that draws the path taken whenever the mouse was dragged.
+Creates a GUI window that draws the path taken whenever the mouse was dragged (this example is useful if you're implementing text selection for gold points).
+
+ClipboardExample
+--------------------
+
+Illustrates how to interact with the system clipboard (to implement copy and paste for gold points).
