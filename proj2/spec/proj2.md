@@ -6,6 +6,20 @@ Change Log
 
 This section describes major changes that have been made to the spec since it was released.
 
+##### March 1
+
+* Added another video on data structure selection and analysis.
+* Added basics autograder.
+
+##### February 29
+
+* Added FAQ about removing nodes
+* Added a note that the scroll bar should never result in non-integral window positions (these positions should be rounded, like text positions).
+
+##### February 27
+
+Added more FAQs to address common questions about the mysterious JavaFX Nodes, Groups, and special root Group.
+
 ##### February 25
 
 * Added a clarification to the runtimes: Using arrow keys or clicking should be resolved in constant time: but the length of each line is a constant, since the window can only be so wide.
@@ -52,12 +66,12 @@ Introduction
 
 Project 2 is the largest project you will do in this class, and the goal of the project is to teach you how to handle a larger code base than you have (likely) ever worked with before.  It is a solo project, so while you can discuss ideas with others, all of the code you submit will be your own.  This project is designed to be similar to the coding experience you might have at a summer internship or job: you'll write a large amount of code, and you'll need to interact with some external libraries that you've never used before.  By the time you're done with this project, you will have written approximately 1000 lines of code.  This may sound like a lot of lines of code, and it is!  Here are some tips to avoid being crushed by complexity:
 
- * **Start early** This project has some tricky data structures, so we recommend you start thinking about how to implement the project as soon as possible so that you have some time to mull over your design.  Also, you'll be more efficient at writing code if you're not stressed by an impending deadline! 
+ * **Start early** This project has some tricky data structures, so we recommend you start thinking about how to implement the project as soon as possible so that you have some time to mull over your design.  Also, you'll be more efficient at writing code if you're not stressed by an impending deadline!
  * **Design first** Before writing any code, spend some time designing.  By "design", we mean think about what data structures you're going to use for each part of the project. We recommend thinking about _all_ of the features and how each one might be implemented with your data structures, and do this before writing any code. You don't need to know exactly how every feature will be implemented before you write any code, but it's a good idea to have a rough idea and a sense of potential problem areas.  This will help you avoid a situation where you start implementing a feature later in the assignment and realize a massive re-write is necessary!
  * **Code small** Constantly ask yourself "what's the minimum amount of code I can write before testing this new functionality?" Testing doesn't necessarily mean writing a unit test; it can mean sometime much simpler, like opening your program and trying some new input, or seeing if a feature of an external library works as expected.  The fewer lines of code that you write in between testing, the fewer lines you will need to debug when something goes wrong!  "HelloWorlding", a technique described in lab 5, is an example of the "code small" mentality.
- * **Modularize** To mimimize how much complexity you need to consider at any one time, divide your program into modules with clear simple interfaces.  Ideally, these interfaces should _hide_ complexity in their implementations.  For example, the ArrayDeque you wrote in Project 1 hid the complexity of the re-sizing operation from a user of the class.  Similarly, in this project, you should write classes that hide complexity from the code that calls them, which will reduce how much complexity you need to consider at a time. 
+ * **Modularize** To mimimize how much complexity you need to consider at any one time, divide your program into modules with clear simple interfaces.  Ideally, these interfaces should _hide_ complexity in their implementations.  For example, the ArrayDeque you wrote in Project 1 hid the complexity of the re-sizing operation from a user of the class.  Similarly, in this project, you should write classes that hide complexity from the code that calls them, which will reduce how much complexity you need to consider at a time.
  * **Modularize** This is so important that it is here again. Having a hierarchy of classes (or interfaces) with an easy to understand API will make your life so much easier than otherwise. Modular code that hides details is easier to understand, plan, develop, debug, and improve. And if you later decide you don't like a piece of your program, a modular design means you can cleanly replace only that piece.
- * **Bounce ideas off of each other** While you should write all of the code for the project on your own, you're welcome to discuss design ideas with others in the class.  After you've thought about your design, we strongly recommend finding someone else in the class and discussing each of your approaches.  The other person likely thought of a few things you didn't consider, and vice versa. 
+ * **Bounce ideas off of each other** While you should write all of the code for the project on your own, you're welcome to discuss design ideas with others in the class.  After you've thought about your design, we strongly recommend finding someone else in the class and discussing each of your approaches.  The other person likely thought of a few things you didn't consider, and vice versa.
  * **Look at examples** We have written examples (in the `examples` directory) that show how to use most of the functionality in JavaFX that you'll need to use for this project.  Starting from these examples will be much easier than starting from scratch!
 
 This project will be long, arduous, and at times frustrating.  However, we hope that you will find it a rewarding experience by the time you are done!
@@ -71,6 +85,10 @@ For some additional tips on the project, see:
  - Project 2 Slides (video content and more): [Link](https://docs.google.com/presentation/d/15NGQTbiQWq0PgSIpleuAGMDo-QFdER4A-2GX0_59D2A/edit#slide=id.g11b3bd1314_0_6)
  - Project 2 Design Analyis Worksheet (make a copy): [Link](https://docs.google.com/document/d/17IsU4plqtkbvxoF5f_uc7UMhxkaJ3TpxzaY67vh75fQ/edit)
  - Example Project 2 Design Analysis Worksheet, using String as data structure: [Link](https://docs.google.com/document/d/17PUw2EffgyU5_zQHZ8GV52EhS3NPwUyghFfX6EmJiS4/edit)
+
+3/1/2016. For even more tips, see:
+ - Project 2 Video #2, More on Data Structures: [Link](https://youtu.be/K5nsYVF96HY)
+ - Project 2 Design Analysis Worksheet, using FastLinkedList as data structure: [Link](https://docs.google.com/document/d/1eIuf-7Lznfjq6Vccu-JnmIr8uWXdK1r3ufq2d5o6mII/edit)
 
 Overview
 ------------------
@@ -94,7 +112,7 @@ Your text editor should support the following features. Most of these features a
 * **Changing font size** Pressing shortcut+"+" (the shortcut key and the "+" key at the same time) should increase the font size by 4 points and pressing shortcut+"-" should decrease the font size by 4 points.
 * **Printing the current position** To facilitate grading, pressing shortcut+p should print the top left coordinate of the current cursor position.
 
-If you're unsure what some of these features mean, we suggest experimenting with Notepad, Microsoft Word, Google Docs, or TextEdit.  Those text editors all use a flashing vertical cursor, implement line wrap, react to arrow keys, scroll vertically, and accept mouse input in the way we expect you to for this assignment. Note that up/down arrows are a bit more sophisticated in some editors than what we require in this assignment (see spec above). 
+If you're unsure what some of these features mean, we suggest experimenting with Notepad, Microsoft Word, Google Docs, or TextEdit.  Those text editors all use a flashing vertical cursor, implement line wrap, react to arrow keys, scroll vertically, and accept mouse input in the way we expect you to for this assignment. Some of these editors (e.g., Microsoft Word) assume documents have a fixed with (e.g., 8.5", to match the width of letter paper), so sometimes show a horizontal scroll bar.  For this assignment, you should always word-wrap the text to fit in the width of the current window, so you will never need to show a horizontal scroll bar.  Also note that up/down arrows are a bit more sophisticated in some editors than what we require in this assignment, as described in more detail in the detailed spec below.
 
 For obvious reasons, the spec leaves some room for interpretation. Most reasonable interpretations will be given full credit. See the FAQ for more.
 
@@ -113,7 +131,7 @@ The skeleton provides a single file named `Editor.java` that you should modify. 
 
 For this project, you'll be using the JavaFX libary to create your application, display text, etc.  JavaFX is included in Java 1.8, so you do not need to download any additional libraries for this project.  JavaFX is a massive library that's designed to support a wide variety of Java applications; as a result, it is significantly more complicated than the `StdDraw` library you used in project 0.  You will likely find JavaFX overwhelming when you first start writing code! One of the goals of this project is to help you get comfortable with using external libraries. To help you get started, we have written few example applications (described in `examples/README`); we highly recommend that you use one of these examples as a starting point for your editor.  There will be cases where our example is incomplete and you need to look up functionality on your own; the [official documentation](https://docs.oracle.com/javase/8/javafx/api/) is a good starting point.
 
-Much of the functionality you'll implement in this project will be initiated by `KeyEvents`.  There are two kinds of `KeyEvent`s: `KEY_TYPED` events and `KEY_PRESSED` events.  `KEY_TYPED` events are generated when a Unicode chracter is entered; you should use these to find out about character input for your text editor.  You can ignore `KEY_TYPED` events that have 0-length (keys like the arrow key will result in a `KEY_TYPED` event with 0-length), that have a charater equal to 8 (which represents the backspace), and that have `isShortcutDown()` set to true.  You should use `KEY_PRESSED` events for all other kinds of input.  `KEY_PRESSED` events have an associated `KeyCode` that's useful for finding out about special keys (e.g., the code will be `KeyCode.BACKSPACE` for the backspace key). If you're unclear how `KeyEvent`s work, make sure to see the `KeyPressPrinter.java` example.
+Much of the functionality you'll implement in this project will be initiated by `KeyEvents`.  There are two kinds of `KeyEvent`s: `KEY_TYPED` events and `KEY_PRESSED` events.  `KEY_TYPED` events are generated when a Unicode chracter is entered; you should use these to find out about character input for your text editor.  You can ignore `KEY_TYPED` events that have 0-length (keys like the arrow key will result in a `KEY_TYPED` event with 0-length), that have a charater equal to 8 (which represents the backspace), and that have `isShortcutDown()` set to true.  You should use `KEY_PRESSED` events for all other kinds of input.  `KEY_PRESSED` events have an associated `KeyCode` that's useful for finding out about special keys (e.g., the code will be `KeyCode.BACK_SPACE` for the backspace key). If you're unclear how `KeyEvent`s work, make sure to see the `KeyPressPrinter.java` example.
 
 There are a few JavaFX classes that you **may not** use as part of this project.  You should only display text using the `Text` class; you cannot use the `TextFlow`, `TextArea`, `TextInputControl`, or `HTMLEditor` classes (these classes provide functionality to render text that you should implement yourself!).
 
@@ -132,7 +150,7 @@ Your `Editor` program should accept one required command line argument represent
  * If the second command line argument is blank, your program should not print any output.
  * If the second command line argument is "debug", you can print any output you like to facilitate debugging.
 
-__TIP:__ One way to control when output is printed is to create a `Print` class with a static `print(String toPrint)` method.  The `print` method can check which command line argument is set (e.g., using a static variable) and either print or do nothing accordingly. 
+__TIP:__ One way to control when output is printed is to create a `Print` class with a static `print(String toPrint)` method.  The `print` method can check which command line argument is set (e.g., using a static variable) and either print or do nothing accordingly.
 
 ### Data structures and time requirements
 
@@ -150,7 +168,7 @@ You'll also need to store information about how the text is displayed on the scr
 
 Updates to these data structure(s) can take linear time (i.e., the time can be proportional to the number of characters in the document).  In fact, we recommend an approach where you recompute all of the rendering information after each operation.  This makes word wrap much easier, because it's easier to determine where word wraps occur if you start from the beginning of the file.
 
-Moving the cursor (e.g., with a mouse click) should take time constant time. However, since each line has a constant length (since the window can only be so wide), this means your runtime may be proportional to the number of characters in the line where the new cursor position is located. Moving the cursor should not take time proportional to the length of the file (so, for example, you should not need to look at all of the characters in the file to determine the new cursor position).
+Moving the cursor (e.g., with a mouse click) should take time constant time. However, since each line has a constant length (since the window can only be so wide), this means your runtime may be proportional to the number of characters in the line where the new cursor position is located. Moving the cursor should not take time proportional to the length of the file (so, for example, you should not need to look at all of the characters in the file to determine the new cursor position). Keep in mind that it is possible that someone might use the scroll bars before clicking, so even if your cursor is at the beginning of the file, a click might come at the end.
 
 ##### Why?
 
@@ -241,11 +259,9 @@ When the cursor is moved as a result a mouse click, the cursor's new vertical po
 
 To facilitate grading, when the user presses shortcut+p, you should print the top left coordinate of the current cursor position.  The cursor position should be printed in the format "x, y" where the x and y positions describe the cursor position relative to the top left corner of the window (note that the y position may be negative when the cursor is above the window and out of view).  The cursor position should be followed by a newline.  For example, suppose you open the file, type a letter that is 7 pixels wide, type a second letter that is 4 pixels wide, press shortcut+p, move the cursor by pressing the left arrow once, and then press shortcut+p again, your program should print:
 
-    <pre><code>
     16, 0
     12, 0
-    </pre></code>
-    
+
 The cursor position should be printed as an integer because the cursor should always be at an integer, as described in [Font and spacing](#font-and-spacing).
 
 The coordinates of the cursor that you print should be relative to the window.  For example, if the cursor is at the beginning of the first line of visible text, the position printed should be "5, 0", even if there's more text above that isn't visible. We will be using your printed cursor positions for grading.
@@ -296,10 +312,10 @@ If the word keeps getting longer, line breaks should keep being added as necessa
 
 ![long_word_4](long_word_4.png)
 
-  
+
 __TIP:__ Implementing word wrap is easiest if you do it from the very beginning of a file.  Each time a letter is added at the end of a word, you can check to see if that word needs to move to the next line.  Always starting from the beginning of the file is much easier than figuring out how to adjust the word wrapping when characters are added or deleted mid-word or mid-line.
 
-### Open and Save 
+### Open and Save
 
 As mentioned in the [command line arguments section](#command-line-arguments), the first command line argument passed to `Editor` must be the name of a file to edit, and this argument is required.  If that file already exists, `Editor` should open it and display its contents (with the starting cursor position at the beginning of the file); otherwise, `Editor` should begin with an empty file.  Presing shortcut+s should save the text in your editor to the given file, replacing any existing text in the file.  If you encounter an exception when opening or writing to the file (e.g., because the user gave the name of a directory as the first command line argument), your editor should exit and print an error message that includes the filename (for example, "Unable to open file nameThatIsADirectory").  Beware that if you attempt to read from a file that doesn't exist, Java will throw a `FileNotFoundException`, which is the same kind of exception you'll get if you try to read from a directory. Check out `CopyFile.java` for an example of how to determine if a file exists before attempting to read from it.
 
@@ -308,7 +324,7 @@ Opening a file should take time proportional to the length of the file, not to t
 You can assume text files are represented as ASCII.  This means that if you read from the file, e.g., using a `BufferedReader` called `myReader`, you can cast the result to a char:
 
     char readChar = (char) myReader.read()
-    
+
 For more about `BufferedReader`s, checkout the `CopyFile.java` example, or the [official documentation](https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html).
 
 __TIP:__ Implement save and open as early as possible! These make it much easier to test other features like word wrap and handling mouse clicks.
@@ -327,12 +343,16 @@ __TIP:__ When the scroll bar moves, you need to move all of the text in the docu
 
     Group textRoot = new Group();
     root.getChildren().add(textRoot);
-    
+
 And then add all of your `Text` nodes (and the cursor) as children of `textRoot` rather than as children of `root`. (JavaFX will display all `Node`s that are children of the root, children of the root's children, and so on.)  When you want to move all of the text, you can just move the `textRoot` object. For example, to shift the text position up by 10 pixels (so that 10 pixels are hidden above the window), you would do:
 
     textRoot.setLayoutY(-10);
 
 If you're not sure how this works, do some HelloWorlding to experiment!
+
+##### Rounding
+
+As with text positions, you should always round the position of the window (when adjusted with the scroll bar) to be an integral number of pixels.  For example, if the scroll bar's position dictates that the window should be shown so that 8.2 pixels are hidden at the top (i.e., so the window begins 8.2 pixels down into the document), you should round this to 8 pixels.
 
 ##### Non-requirements
 
@@ -395,6 +415,47 @@ Add copy/paste functionality to your editor: when the user presses shortcut+c, a
 
 Undo and redo should work for pasting: if the user pastes some text into the document, and then presses shortcut+z, all of the pasted text should be removed.
 
+Extra Credit Autograder
+-----------------
+
+A basic autograder is available that tests that your printed cursor position is correct under the following circumstances:
+ - At program startup (AGInitialCursorTest).
+ - After typing text that fits on one line (AGSimpleTextTest).
+ - After typing text and backspacing (AGBackspaceTest).
+ - After typing text and using left and right arrow keys (AGArrowKeyTest).
+ - After typing text that involves newlines (AGNewlineTest).
+
+To get the autograder, pull from skeleton using `git pull skeleton master`. To run one of the five autograder tests, just run the class file, e.g.:
+
+    $ java editorTester.AGInitialCursorTest
+
+These tests will only work correctly if:
+ - Your code prints the current cursor position when shortcut+p is pressed.
+ - Your code does not print anything else to the screen, other than the cursor position when shortcut+p is pressed.
+
+Of course, you're welcome to print anything you'd like so long as you specify "debug" as the second command line argument. Our test files will not use this argument, so such print statements will not interfere with the grader.
+
+Completing these tests by 3/2/16 at 11:59 PM will yield 0.2 bonus points per test. Information about how to get these points will be coming soon.
+
+####Submission for Basic Autograder
+
+To get credit for passing the tests, run the editorTester tests with the optional command line argument "gradescope". For example:
+
+    $ java editorTester.AGInitialCursorTest gradescope
+
+You will be prompted to enter your gradescope email address. Enter it exactly like your account from gradescope. If your test is successful, a file called TokenAGInitialCursorTest.java will be generated.
+
+Run this for each of the five tests, and if you pass all of them you'll generate 5 distinct tokens.
+
+Simply upload these to gradescope for credit. *Warning: Do not provide tokens for other students in the class.* If we happen to catch you, this will be considered a failing grade in the course, as per our course plagiarism policy.
+
+Tokens are due 3/2/2016 at 11:59 PM, barring any infrastructural issues that I am unable to fix due to travel. 
+
+Submissions
+-----------------
+
+TBA. The final autograder will be fairly minimal, with significant testing done manually by graders.
+
 Frequently Asked Questions
 -----------------
 
@@ -402,13 +463,141 @@ Frequently Asked Questions
 
 No, you do not need to support any additional key presses beyond the ones mentioned in the spec.
 
-#### My Text / Rectangle / other Node isn't appearing on the screen!
+### What about the delete key, which deletes the character in front of the cursor on some operating systems?
 
-Make sure you've added the new Node to the scene graph; e.g., `root.getChildren().add(<new thing>)`.
+You do not need to handle this special delete functionality; you only need to handle the backspace key (which removes the character behind the cursor).
 
 #### How can I efficiently append to a String?
 
 You shouldn't need to append to a String for this assignment!  If you're just curious, Strings are immutable, so if you want to efficiently construct a string by appending substrings to it, you can use a `StringBuilder` (but to reiterate, you should not be appending to Strings or using StringBuilders for this assignment!).
+
+#### My Text / Rectangle / other Node isn't appearing on the screen!
+
+Make sure you've added the new Node to the scene graph; e.g., `root.getChildren().add(<new thing>)`.
+
+#### What is this mysterious root and why do I need to change its children? (or: what are Groups?)
+
+Before talking about `root`, it's helpful to describe JavaFX `Node`s.  JavaFX uses the `Node` abstract class to represent, essentially, "something that should be displayed on the screen."  All of the things you display -- Rectangles, Text, Groups, etc. -- are subclasses of Node.  Checkout the Node documentation here: https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Node.html
+
+`root` is a special `Node` that JavaFX uses to determine what to display in the window.  Each JavaFX application has exactly one Scene (you can think of the Scene as a container for all of the JavaFX "stuff"), and each Scene has exactly one "root" node ("root" is just a naming convention used for this special `Node`).  JavaFX uses the root node to determine what do display: JavaFX displays the root node, and all of the children of the root node, and all of the children of the children, and so on.  This is why when you add a new Node (e.g., a Text object), you need to do this funny "root.getChildren.add(..)" call: this call adds your new Node as a child of "root" so that it will be displayed. [This page](http://docs.oracle.com/javafx/2/scenegraph/jfxpub-scenegraph.htm) talks in extensive detail about the scene graph; just looking at figure 1 is probably most useful.
+
+A Group is a special kind of Node that can have children.  Usual nodes (e.g., Text nodes) can't have any children.  You'll notice that the `root` is actually a `Group` (in the examples, we create it with something like `Group root = new Group()`).  It can be useful to create a Group if you want to style a bunch of nodes together.  For example, you can make a Group called "thingsIWantToMove", and when you adjust the layout position of "thingsIWantToMove", it will change the layout of all of the children of the "thingsIWantToMove" Group.  For example:
+
+    Group thingsIWantToMove = new Group();
+    root.getChildren().add(thingsIWantToMove);
+    Rectangle rectangleToMove = new Rectangle(10, 10, 10, 10);
+    Rectangle secondRectangleToMove = new Rectangle(20, 20, 20, 20);
+    thingsIWantToMove.getChildren().add(rectangleToMove);
+    thingsIWantToMove.getChildren().add(secondRectangleToMove);
+
+Notice that `rectangleToMove` and `secondRectangleToMove` were both added as children of `thingsIWantToMove` rather than as children of `root`.  Since `thingsIWantToMove` is a child of root, these rectangles wil still be displayed on the screen.  Now, you can change the position of `thingsIWantToMove`, e.g.,
+
+    thingsIWantToMove.setLayoutX(30);
+
+This call will change all of the children of `thingsIWantToMove` to be shifted to the right by 30 pixels.  Note that `rectangleToMove.getX()` will still return 10 (the original value it was set to be), but `rectangleToMove` will be displayed at an x-position of 10 _relative to the position of its parent_.  Since its parent is at an x-position of 30, `rectangleToMove` will be displayed at an _absolute_ x-position of 40 (i.e., it will be 40 pixels to the right of the edge of the window).  It will likely be helpful to do some "hello worlding" to understand how groups and layout positions work, where you make a simple example (much simpler than your editor!) just to experiment with.
+
+Groups may be useful when you're implementing the scroll bar, as hinted at in that section of the spec.
+
+#### What do you mean by "render"?  How do I re-render things?
+
+By "render", we mean draw all of the text on the screen.  As described above, in JavaFX, to display a `Node` on the screen, it needs to be added as a child of `root` (or one of `root`'s children, or one of the children of one of `root`'s children, and so on).  JavaFX displays all of the children, grandchildren, etc. of `root` automatically; you don't need to call any special functions to make this happen.  You may be wondering how to change something once it's already been placed on the screen.  For example, suppose you add a rectangle to the screen:
+
+    // Make a 5x5 rectangle at position 0, 0.
+    Rectange funGrowingRectangle = new Rectangle(0, 0, 5, 5);
+    root.getChildren().add(funGrowingRectangle);
+
+And then later, you decide you'd like to make the rectangle larger.  One way to do this is to remove the rectangle from the children of root and then re-add a new one:
+
+    root.getChildren().remove(funGrowingRectangle);
+    // Make a 10x10 rectangle as position 0, 0.
+    Rectangle biggerFunnerGrowingRectangle = new Rectangle(0, 0, 10, 10);
+    root.getChildren().add(biggerFunnerGrowingRectangle);
+
+However, you can also change the attributes of the existing `Node`.  For example, after running the previous code, you could change the size of `biggerFunnerGrowingRectangle` with:
+
+    biggerFunnerGrowingRectangle.setWidth(30);
+    biggerFunnerGrowingRectangle.setHeight(30);
+
+And voila, you will see a rectangle with a width and height of 30! The call `getChildren().add(biggerFunnerGrowingRectangle)` added a pointer to `biggerFunnerGrowingRectangle` to the children, so changing properties of `biggerFunnerGrowingRectangle` means that the `Rectangle` shown on the screen will change accordingly (JavaFX will always display all nodes reachable from root, using the current properties of those nodes).  When we say that rendering should take linear time, we mean that updating all of the JavaFX objects (e.g., their positions, the font size, etc.) should take linear time.
+
+#### How can I remove Nodes from the screen?  Is it ok to remove all of the children of root and re-add them each time?
+
+You can remove Nodes from the screen with the `remove` function.  For example, suppose you have added the letters "H", "u", and "g" to the screen, and then want to remove the "u".  You could do that as follows:
+
+    Text letterOnLeft = new Text("H");
+    root.getChildren().add(letterOnLeft);
+    Text letterInMiddle = new Text("u");
+    root.getChildren().add(letterInMiddle);
+    Text letterOnRight = new Text("g");
+    root.getChildren().add(letterOnRight);
+    
+    // ... sometime later, delete the middle letter.
+    root.getChildren().remove(letterInMiddle);
+  
+You should *not* remove things by clearing all of the children of root and re-adding them each time, for example, with code like this:
+
+    // Do not do this!
+    root.getChildren().clear();
+    root.getChildren().add(letterOnLeft);
+    root.getChildren().add(letterOnRight);
+    
+This strategy will be prohibitively slow when editing a large file.
+
+#### I want to add something as a child of `root` but I can't get access to `root` in the location where I want it!
+
+If you worked off of one of our examples, you probably created root with a call like:
+
+    Group root = new Group();
+
+in your `Editor` class's `start()` function.  You may later have some other function in `Editor` where you want to use `root`:
+
+    public void drawCow() {
+        Cow myCow = new Cow("Clover");
+        root.getChildren().add(myCow);
+    }
+
+If you haven't changed anything else in your `Editor`, this code will cause a compile-time error because `root` cannot be found.  This error may seem vexing because `root` and the `start()` method are these mysterious JavaFX constructs, but remember your old friend the instance variable!  You can use an instance variable in your `Editor` class to save the value of root, if you like, just like you've used instance variables in the past to save variables that are needed in many places in your class (e.g., the array that you used to store data in `ArrayDeque`).  For example, you could add something at the top of your `Editor` class like:
+
+    public class Editor extends Application {
+        Group root;
+        ...
+
+and then in your `start` method, you can set the `root` instance variable rather than creating a new `root` variable:
+
+    root = new Group();
+
+If you'd like, you can also create a no-argument constructor for your `Editor` class where you initialize `root`:
+
+    public Editor() {
+        root = new Group();
+    }
+
+Then, in `start()`, you can use the `root` instance variable (e.g., when you're making a `Scene`) rather than creating a new `root` variable.  JavaFX will call the no-argument constructor of your application for you (before `start()` is called).  For an example, checkout `SingleLetterDisplay.java`, which uses a no-argument constructor to set up some instance variables.
+
+Maybe you want to use `root` in a different class, e.g., the `CowDrawer` class:
+
+    public class CowDrawer {
+        // The cow to draw.
+        Cow cow;
+        public CowDrawer() {
+            cow = new Cow("Bluebell");
+            root.getChildren().add(cow);
+        }
+    }
+
+Again, you'll get a compiler warning.  Remember that `root` is just like any other variable, and if you want to let other classes have access to it, you'll need to explicitly tell those classes about it, e.g., by making it a constructor variable:
+
+
+    public class CowDrawer {
+        // The cow to draw.
+        Cow cow;
+        public CowDrawer(Group root) {
+            cow = new Cow("Bluebell");
+            root.getChildren().add(cow);
+        }
+    }
+
+This new code will compile, and the code that creates `CowDrawer` will need to pass the `root` variable into the constructor.
 
 #### What does this error mean? "Caused by: java.lang.NullPointerException: Children: child node is null: parent = Group@4490e1f7[styleClass=root]""
 This typically means you’re trying to add a Node to the scene graph (e.g., using something like `group.getChildren().add(<new node>)`) that’s null or not completely initialized.
@@ -419,6 +608,14 @@ No.
 #### Can I use Java Libraries?
 
 You're welcome to use Java libraries for data structures like Lists, Queues, etc.  You can also use Java libraries for reading from and writing to files.  As mentioned in the previous question, you should not use any graphics libraries other than JavaFX.
+
+#### Can I use code that I found online and that's not from a Java library?
+
+In general, no; other than the Java libraries, all of the code used for this project should be your own.  If you have a specific use case that seems questionable, feel free to post on Piazza.
+
+#### Can I use functionality from earlier projects, even though I worked with a partner on those projects?
+
+Yes.
 
 #### I added a `ChangeListener` to ScrollBar to listen for when the user scrolls, but this listener gets called even when my code initiates a change to the value of the scroll bar! How do I avoid this?
 
@@ -437,6 +634,23 @@ No. We did some experimenting with `ScrollPane` and found that it was easier to 
 Yes.  JavaFX creates a scroll bar that's always the same wee size by default.  If you'd like, you can set the size of the scroll bar using the `setVisibleAmount` method, but this is not required, and it is tricky to get right.
 
 As an aside, if you get really excited about scroll bars (who wouldn't be?), you can write your own scroll bar using one of Java FX's rectangles, and setting the arc properties on the rectangle to get rounded corners.  You can use this functionality to create a fancy minimalist scroll bar (just a dark-grey rounded rectangle on the right side of the screen), and register mouse properties so that dragging the scroll bar changes the position of the text. This is entirely a fun experiment, and *not* something you should turn in with your assignment, because it will break the grading of your assignment.
+
+#### I'm getting an error from JavaFX that says duplicate children were added.  What does this mean?
+
+This error is happening because you're adding the same Node object to the root twice.  For example, suppose you do something like:
+
+    Text t1 = new Text("h");
+    root.getChildren().add(t1);
+
+Now, if you change t1 and try to add it again:
+
+    t1.setText("hi");
+    root.getChildren().add(t1);
+
+The second call will throw an error, because JavaFX recognizes that t1 is already in children.  JavaFX displays all of the nodes that are children of root, or children of children of root, and so on.  If you change a node that is already reachable from root (e.g., in the example above, if you change the string stored in t1), JavaFX will update the displayed text automatically.  If you want to add another piece of text to root, you should do something like:
+
+    Text t2 = new Text("my new text");
+    root.getChildren().add(t2);
 
 Acknowledgements
 ------------
