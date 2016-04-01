@@ -6,6 +6,14 @@ Change Log
 
 This section describes major changes that have been made to the spec since it was released.
 
+##### March 6
+
+* Updated information about grading (to link to Piazza).
+
+##### March 3
+
+* Added an extra page with some tips about how to use JavaFX's `ScrollBar` class, linked from the [scroll bar section](#scroll-bar).
+
 ##### March 1
 
 * Added another video on data structure selection and analysis.
@@ -42,7 +50,7 @@ Table of Contents
 * [Overview](#overview)
 * [Getting the Skeleton Files](#getting-the-skeleton-files)
 * [Detailed Spec](#detailed-spec)
-  * [JavaFX](#javafx)
+  * [JavaFX and KeyEvents](#javafx-and-keyevents)
   * [Window size and margins](#window-size-and-margins)
   * [Command line arguments](#command-line-arguments)
   * [Data structures and time requirements](#data-structures-and-time-requirements)
@@ -131,9 +139,13 @@ The skeleton provides a single file named `Editor.java` that you should modify. 
 
 For this project, you'll be using the JavaFX libary to create your application, display text, etc.  JavaFX is included in Java 1.8, so you do not need to download any additional libraries for this project.  JavaFX is a massive library that's designed to support a wide variety of Java applications; as a result, it is significantly more complicated than the `StdDraw` library you used in project 0.  You will likely find JavaFX overwhelming when you first start writing code! One of the goals of this project is to help you get comfortable with using external libraries. To help you get started, we have written few example applications (described in `examples/README`); we highly recommend that you use one of these examples as a starting point for your editor.  There will be cases where our example is incomplete and you need to look up functionality on your own; the [official documentation](https://docs.oracle.com/javase/8/javafx/api/) is a good starting point.
 
-Much of the functionality you'll implement in this project will be initiated by `KeyEvents`.  There are two kinds of `KeyEvent`s: `KEY_TYPED` events and `KEY_PRESSED` events.  `KEY_TYPED` events are generated when a Unicode chracter is entered; you should use these to find out about character input for your text editor.  You can ignore `KEY_TYPED` events that have 0-length (keys like the arrow key will result in a `KEY_TYPED` event with 0-length), that have a charater equal to 8 (which represents the backspace), and that have `isShortcutDown()` set to true.  You should use `KEY_PRESSED` events for all other kinds of input.  `KEY_PRESSED` events have an associated `KeyCode` that's useful for finding out about special keys (e.g., the code will be `KeyCode.BACK_SPACE` for the backspace key). If you're unclear how `KeyEvent`s work, make sure to see the `KeyPressPrinter.java` example.
+Much of the functionality you'll implement in this project will be initiated by `KeyEvents`.  There are two kinds of `KeyEvent`s: `KEY_TYPED` events and `KEY_PRESSED` events.
 
-There are a few JavaFX classes that you **may not** use as part of this project.  You should only display text using the `Text` class; you cannot use the `TextFlow`, `TextArea`, `TextInputControl`, or `HTMLEditor` classes (these classes provide functionality to render text that you should implement yourself!).
+`KEY_TYPED` events are generated when a Unicode chracter is entered; you should use these to find out about character input for your text editor.  The `KEY_TYPED` events automatically handle capitalization (e.g., if you press the shift key and the "a" key, you'll get a single `KEY_TYPED` event with a character of "A").  You can ignore `KEY_TYPED` events that have 0-length (keys like the arrow key will result in a `KEY_TYPED` event with 0-length), that have a charater equal to 8 (which represents the backspace), and that have `isShortcutDown()` set to true (it's easier to handle the shortcuts using the `KEY_PRESSED` events).
+
+Every time a key is pressed, a `KEY_PRESSED` event will be generated.  The `KEY_PRESSED` events often duplicate the `KEY_TYPED` events.  For example, in the example we gave above where the user presses shift and the "a" key, JavaFX generates three events: one `KEY_PRESSED` event for the shift key, one `KEY_PRESSED` event for the "a" key, and one `KEY_TYPED` event with a character of "A".  These `KEY_PRESSED` events aren't very useful for normal text input, because they don't handle capitalization; however, they are useful for control keys, because each `KEY_PRESSED` event has an associated `KeyCode` that's useful for finding out about special keys (e.g., the code will be `KeyCode.BACK_SPACE` for the backspace key). If you're unsure about how `KeyEvent`s work, make sure to see the `KeyPressPrinter.java` example.
+
+There are a few JavaFX classes that you **may not** use as part of this project.  You should only display text using the `Text` class, and you should be determining where to place text (and how to word wrap) yourself.  You cannot use the `TextFlow`, `FlowPane`, `TextArea`, `TextInputControl`, or `HTMLEditor`.  If in doubt about whether you can use a particular class or function, ask on Piazza.
 
 ### Window size and margins
 
@@ -333,9 +345,11 @@ __TIP:__ Implement save and open as early as possible! These make it much easier
 
 Your editor should include a scroll bar on the right side of the screen that can be used to scroll through a document that doesn't all fit on the screen at once.  When the scroll bar is at the top position, the top line of text should be at the top of the screen; when the scroll bar is at the bottom position, the bottom line of text should be at the bottom of the screen. You do not need to implement optimizations to avoid rendering text that is not currently visible on the screen.
 
+__TIP:__ If you're struggling with the scroll bar, after reading the writeup below, take a look at [this page](proj2-scroll-bar-tips.html) for some extra tips on how it works.
+
 ##### The scroll bar and the cursor
 
-Moving the scroll bar should not move the cursor.  If the user moves the scroll bar such that the cursor is no longer visible and then begins typing or deleting text, the scroll bar (and the window) should automatically adjust so that the cursor is visible.  You should perform the minimum adjustment so that the cursor is visible: if the cursor is below the currently visible text, the scroll bar and window position should adjust so that the cursor is on the bottom line of visible text; if the cursor is above the visible text, the scroll bar should adjust so that the cursor is on the top line of visible text.
+Moving the scroll bar should not move the cursor.  So, it's possible for the user to move the scroll bar such that the cursor is currently off of the screen (because it's at a position that's not currently visible).  However, if the cursor is off of the screen and then the user starts typing (e.g., typing a new letter), the window should "snap" back to a location where the cursor is visible (you can play around with other editors like Google Docs to see this functionality in action).  When you're "snapping" the window back so that the cursor is visible, you should perform the minimum adjustment so that the cursor is visible.  If the cursor is below the currently visible text, the scroll bar and window position should adjust so that the cursor is on the bottom line of visible text.  If the cursor is above the visible text, the scroll bar should adjust so that the cursor is on the top line of visible text.  Note that you should *only* do this adjustment if the user starts typing; if the user is just scrolling with the scroll bar, it's fine for the cursor to be off of the screen.
 
 If the user moves the cursor (e.g., with the arrow keys) such that it is off of the visible screen, the scroll bar and window position should automatically adjust so that the cursor stays visible. As above, your editor should use the minimum adjustment that maintains visibility of the cursor.
 
@@ -456,7 +470,7 @@ Tokens are due 3/2/2016 at 11:59 PM, barring any infrastructural issues that I a
 Submissions
 -----------------
 
-TBA. The final autograder will be fairly minimal, with significant testing done manually by graders.
+For information about submitting your assignment, see [this Piazza post](https://piazza.com/class/iiklg7j9ggf2vl?cid=3647).  For a rough point breakdown and information about how your project will be graded, see [this Piazza post](https://piazza.com/class/iiklg7j9ggf2vl?cid=3448).
 
 Frequently Asked Questions
 -----------------
@@ -465,7 +479,7 @@ Frequently Asked Questions
 
 No, you do not need to support any additional key presses beyond the ones mentioned in the spec.
 
-### What about the delete key, which deletes the character in front of the cursor on some operating systems?
+#### What about the delete key, which deletes the character in front of the cursor on some operating systems?
 
 You do not need to handle this special delete functionality; you only need to handle the backspace key (which removes the character behind the cursor).
 
@@ -653,6 +667,36 @@ The second call will throw an error, because JavaFX recognizes that t1 is alread
 
     Text t2 = new Text("my new text");
     root.getChildren().add(t2);
+    
+#### Pressing command+equals (or command+minus) causes three events to happen, so my font increases (or decreases) by 12 rather than 4. What's going on?
+
+This seems to be a bug issue with the way some keyboards / operating systems interact with JavaFX.  Try running `KeyPressPrinter` to see what happens when you press shortcut and the offending key (some folks have had this problem with the equals/plus key, and others have had this problem with the minus key). For example, if you're having this problem with equals, run `KeyPressPrinter` and press shortcut+equals.  If you see output that looks like:
+
+    KeyEvent [source = javafx.scene.Scene@1eb33d6f, target = javafx.scene.Scene@1eb33d6f, eventType = KEY_PRESSED, consumed = false, character =  , text = , code = COMMAND, metaDown, shortcutDown]
+    ==> The key pressed had code: COMMAND
+    KeyEvent [source = javafx.scene.Scene@1eb33d6f, target = javafx.scene.Scene@1eb33d6f, eventType = KEY_PRESSED, consumed = false, character =  , text = =, code = EQUALS, metaDown, shortcutDown]
+    ==> The key pressed had code: EQUALS
+    KeyEvent [source = javafx.scene.Scene@1eb33d6f, target = javafx.scene.Scene@1eb33d6f, eventType = KEY_TYPED, consumed = false, character = =, text = , code = UNDEFINED, metaDown, shortcutDown]
+    ==> The typed character was: =, which has numerical value: 61
+    
+Then your keyboard is working correctly, and there's an issue in your code that you should debug.  This output has one `KEY_PRESSED` event for when the command key was first pressed, a second `KEY_PRESSED` event for when the equals key was pressed (note that `shortcutDown` is set in the key event, meaning the command key was also down), and a final `KEY_TYPED` event for the "=" key, which should be ignored in your editor because `shortcutDown` is set.
+
+On the other hand, if the output looks like:
+
+    KeyEvent [source = javafx.scene.Scene@1eb33d6f, target = javafx.scene.Scene@1eb33d6f, eventType = KEY_PRESSED, consumed = false, character =  , text = , code = COMMAND, metaDown, shortcutDown]
+    ==> The key pressed had code: COMMAND
+    KeyEvent [source = javafx.scene.Scene@1eb33d6f, target = javafx.scene.Scene@1eb33d6f, eventType = KEY_PRESSED, consumed = false, character =  , text = =, code = EQUALS, metaDown, shortcutDown]
+    ==> The key pressed had code: EQUALS
+    KeyEvent [source = javafx.scene.Scene@1eb33d6f, target = javafx.scene.Scene@1eb33d6f, eventType = KEY_TYPED, consumed = false, character = =, text = , code = UNDEFINED, metaDown, shortcutDown]
+    ==> The typed character was: =, which has numerical value: 61    KeyEvent [source = javafx.scene.Scene@1eb33d6f, target = javafx.scene.Scene@1eb33d6f, eventType = KEY_PRESSED, consumed = false, character =  , text = =, code = EQUALS, metaDown, shortcutDown]
+    ==> The key pressed had code: EQUALS
+    KeyEvent [source = javafx.scene.Scene@1eb33d6f, target = javafx.scene.Scene@1eb33d6f, eventType = KEY_TYPED, consumed = false, character = =, text = , code = UNDEFINED, metaDown, shortcutDown]
+    ==> The typed character was: =, which has numerical value: 61    KeyEvent [source = javafx.scene.Scene@1eb33d6f, target = javafx.scene.Scene@1eb33d6f, eventType = KEY_PRESSED, consumed = false, character =  , text = =, code = EQUALS, metaDown, shortcutDown]
+    ==> The key pressed had code: EQUALS
+    KeyEvent [source = javafx.scene.Scene@1eb33d6f, target = javafx.scene.Scene@1eb33d6f, eventType = KEY_TYPED, consumed = false, character = =, text = , code = UNDEFINED, metaDown, shortcutDown]
+    ==> The typed character was: =, which has numerical value: 61
+    
+then you have the keyboard bug issue.  In this output, the key pressed and key typed events for the equals key are duplicated three time.  If this happens to you, then don't worry about the font-increasing-by-three (or decreasing by three) issue; this is an issue specific to your machine that won't occur when we grade your assignment.
 
 Acknowledgements
 ------------
