@@ -202,6 +202,7 @@ public class MapServer {
      * @see #REQUIRED_RASTER_REQUEST_PARAMS
      */
     public static Map<String, Object> getMapRaster(Map<String, Double> params, OutputStream os) {
+        System.out.println(params);
         HashMap<String, Object> rasteredImageParams = new HashMap<>();
         return rasteredImageParams;
     }
